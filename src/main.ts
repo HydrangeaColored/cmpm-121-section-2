@@ -2,34 +2,39 @@
 
 import './style.css';
 
+// sprites
 const dino = document.getElementById("dino");
 const cactus = document.getElementById("cactus");
 const bird = document.getElementById("bird");
 
+// score initialization
 const scoreText = document.getElementById("scoreText");
 let score = 0;
 setText("click to start!");
 
-
+// global vars
 var isJumping = false;
 let gameOver = true;
 
+// jump listener
 document.addEventListener('click', () => jump());
 
-
+// main interval
 setInterval(function () {Main()}, 10);
 
 function Main(){
+    // if game is not over, increment score and update text
+    // check if game is over before incrementing score
+    checkGameOver();
     if(gameOver == false){
-        score = score + 1;
+        score++;
         setText("Score: " + score);
-        checkGameOver();
     }
 }
 
-
+// jump
 function jump(){
-    if(gameOver === false){
+    if(gameOver == false){
         if(isJumping == false){
             isJumping = true;
             dino?.classList.add("jump");
@@ -41,21 +46,20 @@ function jump(){
     }
 }
 
-
+// allow jump when landing
 function removeJump(){
     dino?.classList.remove("jump");
     isJumping = false;
-    //mainLoop = mainLoop //bug fix?
 }
 
+// delete unused obstacles
 function removeObstacles(){
     cactus?.classList.remove("cactusMove");
     bird?.classList.remove("birdMove");
 }
 
-
+// game over check
 function checkGameOver(){
-
     if(gameOver == false && dino != null && cactus != null && bird != null){
         //get is dinosaur jumping
         let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"));
@@ -96,7 +100,7 @@ function checkGameOver(){
     }
 }
 
-
+// start game
 function startGame(){
     console.log("Game started!");
     gameOver = false;
@@ -105,6 +109,7 @@ function startGame(){
     bird?.classList.add("birdMove");
 }
 
+// set message string
 function setText(s: string){
     if(scoreText){
         scoreText.textContent = s;
